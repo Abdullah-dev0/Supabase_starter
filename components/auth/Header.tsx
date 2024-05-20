@@ -2,11 +2,13 @@
 import { createBroswerClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 
 const Header = () => {
-   const [user, setUser] = useState<[] | any>([]); // [1
+   const [user, setUser] = useState<[] | any>([]);
    const Router = useRouter();
    const supabase = createBroswerClient();
+
    const logout = async () => {
       const { error } = await supabase.auth.signOut();
       if (!error) Router.push("/");
@@ -32,7 +34,7 @@ const Header = () => {
          {user && (
             <div>
                <h1>Welcome {user?.user?.email}</h1>
-               <button onClick={logout}>Logout</button>
+               <Button onClick={logout}>Logout</Button>
             </div>
          )}
          {!user && <h1>Unauthorized</h1>}

@@ -1,5 +1,5 @@
 import Header from "@/components/auth/Header";
-import { userSession } from "@/server/readUserSession";
+import { userSession } from "@/serverActions/readUserSession";
 
 const Dashboard = async () => {
    const user = await userSession();

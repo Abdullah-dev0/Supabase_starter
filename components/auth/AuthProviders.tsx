@@ -2,6 +2,7 @@
 
 import { createBroswerClient } from "@/lib/supabase/client";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 const AuthProviders = () => {
    const [loading, setLoading] = useState(false);
@@ -26,7 +27,7 @@ const AuthProviders = () => {
    };
    return (
       <div className="mt-12">
-         <button onClick={handleLoginWithGithub}>Sign in with Github</button>
+         <Button onClick={handleLoginWithGithub}>Sign in with Github</Button>
       </div>
    );
 };

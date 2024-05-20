@@ -1,6 +1,7 @@
 "use server";
 
 import { createServer } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 export async function login(formData: { email: string; password: string }) {
    const supabase = await createServer();
@@ -12,17 +13,13 @@ export async function login(formData: { email: string; password: string }) {
       password: formData.password,
    };
 
-   try {
-      const { error } = await supabase.auth.signInWithPassword(data);
+   const { error } = await supabase.auth.signInWithPassword(data);
 
-      if (error) {
-         return { error: error.message };
-      }
-
-      return { success: "Logged in successfully" };
-   } catch (error) {
-      console.log(error);
+   if (error) {
+      return { error: error.message };
    }
+
+   return redirect("/dashboard");
 }
 
 export async function signup(formData: { email: string; password: string }) {

@@ -1,60 +1,102 @@
 "use client";
 
-import { login } from "@/server/auth.action";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import AuthProviders from "./AuthProviders";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-const LoginFOrm = () => {
-   const Router = useRouter();
-   const [formData, setFormData] = useState({ email: "", password: "" });
+import { Button } from "@/components/ui/button";
+import {
+   Form,
+   FormControl,
+   FormField,
+   FormItem,
+   FormLabel,
+   FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { defaultValues } from "@/constants";
+import { LoginSchema } from "@/schema";
+import { login } from "@/serverActions/auth.action";
+import { useState, useTransition } from "react";
+import ErrorMessage from "../shared/ErrorMessage";
+import SuccessMessage from "../shared/SuccessMessage";
+
+export function SigninForm() {
    const [error, setError] = useState<string | undefined>("");
    const [success, setSuccess] = useState<string | undefined>("");
-   return (
-      <div>
-         <form
-            onSubmit={(e) => {
-               e.preventDefault();
-               setError("");
-               setSuccess("");
-               login(formData).then((res) => {
-                  if (res?.success) {
-                     Router.push("/dashboard");
-                  }
-                  setError(res?.error);
-               });
-            }}
-         >
-            <label htmlFor="email">Email:</label>
-            <input
-               id="email"
-               name="email"
-               type="email"
-               value={formData.email}
-               required
-               onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-               }
-            />
-            <label htmlFor="password">Password:</label>
-            <input
-               id="password"
-               name="password"
-               type="password"
-               required
-               value={formData.password}
-               onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-               }
-            />
-            <button>Login</button>
-            {error && <p>{error}</p>}
-            {success && <p>{success}</p>}
-         </form>
+   const [isPending, startTransition] = useTransition();
 
-         <AuthProviders />
+   //using react-hook-form and shadcn validating with zod
+
+   const form = useForm<z.infer<typeof LoginSchema>>({
+      resolver: zodResolver(LoginSchema),
+      defaultValues: defaultValues,
+   });
+
+   // 2. Define a submit handler.
+   async function onSubmit(values: z.infer<typeof LoginSchema>) {
+      setError("");
+      setSuccess("");
+      startTransition(() => {
+         login(values).then((res) => {
+            setError(res?.error);
+         });
+      });
+   }
+
+   return (
+      <div className="w-full">
+         <div className="">
+            <Form {...form}>
+               <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-8"
+               >
+                  <FormField
+                     control={form.control}
+                     disabled={isPending}
+                     name="email"
+                     render={({ field }) => (
+                        <FormItem>
+                           <FormLabel>email</FormLabel>
+                           <FormControl>
+                              <Input
+                                 placeholder="jhon@gmail.com"
+                                 type="email"
+                                 {...field}
+                              />
+                           </FormControl>
+                           <FormMessage />
+                        </FormItem>
+                     )}
+                  />
+                  <FormField
+                     control={form.control}
+                     name="password"
+                     render={({ field }) => (
+                        <FormItem>
+                           <FormLabel>password</FormLabel>
+
+                           <FormControl>
+                              <Input
+                                 placeholder="*****"
+                                 disabled={isPending}
+                                 type="password"
+                                 {...field}
+                              />
+                           </FormControl>
+                           <FormMessage />
+                        </FormItem>
+                     )}
+                  />
+                  <ErrorMessage error={error} />
+                  <SuccessMessage success={success} />
+                  <Button disabled={isPending} className="w-full" type="submit">
+                     Submit
+                  </Button>
+               </form>
+            </Form>
+         </div>
       </div>
    );
-};
-
-export default LoginFOrm;
+}
