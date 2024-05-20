@@ -1,9 +1,9 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createServer } from "@/lib/supabase/server";
 
 export async function login(formData: { email: string; password: string }) {
-   const supabase = await createClient();
+   const supabase = await createServer();
 
    // type-casting here for convenience
    // in practice, you should validate your inputs
@@ -26,7 +26,7 @@ export async function login(formData: { email: string; password: string }) {
 }
 
 export async function signup(formData: { email: string; password: string }) {
-   const supabase = await createClient();
+   const supabase = await createServer();
 
    // type-casting here for convenience
    // in practice, you should validate your inputs

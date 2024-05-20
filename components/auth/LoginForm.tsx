@@ -10,7 +10,6 @@ const LoginFOrm = () => {
    const [formData, setFormData] = useState({ email: "", password: "" });
    const [error, setError] = useState<string | undefined>("");
    const [success, setSuccess] = useState<string | undefined>("");
-
    return (
       <div>
          <form
@@ -20,8 +19,7 @@ const LoginFOrm = () => {
                setSuccess("");
                login(formData).then((res) => {
                   if (res?.success) {
-                     Router.push("/");
-                     setSuccess(res.success);
+                     Router.push("/dashboard");
                   }
                   setError(res?.error);
                });
@@ -49,7 +47,7 @@ const LoginFOrm = () => {
                   setFormData({ ...formData, password: e.target.value })
                }
             />
-            <button>Signup</button>
+            <button>Login</button>
             {error && <p>{error}</p>}
             {success && <p>{success}</p>}
          </form>
