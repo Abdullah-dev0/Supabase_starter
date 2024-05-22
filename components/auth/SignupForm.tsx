@@ -1,5 +1,7 @@
 "use client";
 
+//customize this according to your need
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -21,6 +23,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import ErrorMessage from "../shared/ErrorMessage";
 import SuccessMessage from "../shared/SuccessMessage";
+import AuthProviders from "./AuthProviders";
 
 export function SignupForm() {
    const [error, setError] = useState<string | undefined>("");
@@ -40,7 +43,6 @@ export function SignupForm() {
       setSuccess("");
       startTransition(() => {
          signup(values).then((res) => {
-            setSuccess(res?.success);
             setError(res?.error);
          });
       });
@@ -55,6 +57,24 @@ export function SignupForm() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-4"
                >
+                  <FormField
+                     control={form.control}
+                     disabled={isPending}
+                     name="username"
+                     render={({ field }) => (
+                        <FormItem>
+                           <FormLabel>username</FormLabel>
+                           <FormControl>
+                              <Input
+                                 placeholder="jhon"
+                                 type="text"
+                                 {...field}
+                              />
+                           </FormControl>
+                           <FormMessage />
+                        </FormItem>
+                     )}
+                  />
                   <FormField
                      control={form.control}
                      disabled={isPending}
@@ -99,6 +119,7 @@ export function SignupForm() {
                   </Button>
                </form>
             </Form>
+            <AuthProviders />
          </div>
          <Link href="/auth/signin">
             <p className="underline mt-2">Already have An account</p>

@@ -17,9 +17,11 @@ import { Input } from "@/components/ui/input";
 import { defaultValues } from "@/constants";
 import { LoginSchema } from "@/schema";
 import { login } from "@/serverActions/auth.action";
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import ErrorMessage from "../shared/ErrorMessage";
 import SuccessMessage from "../shared/SuccessMessage";
+import AuthProviders from "./AuthProviders";
 
 export function SigninForm() {
    const [error, setError] = useState<string | undefined>("");
@@ -97,6 +99,10 @@ export function SigninForm() {
                </form>
             </Form>
          </div>
+         <AuthProviders />
+         <Link href="/auth/signup">
+            <p className="underline mt-2">Create An account</p>
+         </Link>
       </div>
    );
 }
