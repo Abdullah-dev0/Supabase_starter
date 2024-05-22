@@ -1,6 +1,6 @@
 "use client";
 import { createBroswerClient } from "@/lib/supabase/client";
-import { userSession } from "@/serverActions/readUserSession";
+import { userSession } from "@/serverActions/getUser";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 
