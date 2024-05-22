@@ -1,5 +1,7 @@
 "use server";
 
+// Import the createServerClient function from the @supabase/ssr package this is used to create a client instance in the server itr cannot be used in broswer.
+
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 

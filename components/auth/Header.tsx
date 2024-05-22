@@ -1,29 +1,26 @@
 "use client";
 import { createBroswerClient } from "@/lib/supabase/client";
+import { userSession } from "@/serverActions/readUserSession";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { useEffect, useState, useTransition } from "react";
 
 const Header = () => {
    const [user, setUser] = useState<[] | any>([]);
    const Router = useRouter();
+   const [isPending, startTransition] = useTransition();
    const supabase = createBroswerClient();
 
    const logout = async () => {
-      const { error } = await supabase.auth.signOut();
-      if (!error) Router.push("/");
+      startTransition(async () => {
+         const { error } = await supabase.auth.signOut();
+         if (!error) Router.push("/");
+      });
    };
 
    useEffect(() => {
       const getuser = async () => {
-         const { data, error } = await supabase.auth.getUser();
-
-         if (data) {
-            setUser(data);
-         }
-         if (error) {
-            console.log(error.message);
-         }
+         const user = await userSession();
+         setUser(user);
       };
 
       getuser();
@@ -31,13 +28,28 @@ const Header = () => {
 
    return (
       <div>
-         {user && (
-            <div>
-               <h1>Welcome {user?.user?.email}</h1>
-               <Button onClick={logout}>Logout</Button>
+         {user ? (
+            <div className="flex justify-between gap-5 w-full items-center bg-gray-800 p-4">
+               <h1 className="text-white text-2xl font-bold">Dashboard</h1>
+               <button
+                  onClick={logout}
+                  disabled={isPending}
+                  className="bg-red-500 text-white px-4 py-2 rounded-md"
+               >
+                  Logout
+               </button>
+            </div>
+         ) : (
+            <div className="flex justify-between items-center bg-gray-800 p-4">
+               <h1 className="text-white text-2xl font-bold">Dashboard</h1>
+               <button
+                  onClick={() => Router.push("/auth/signin")}
+                  className="bg-red-500 text-white px-4 py-2 rounded-md"
+               >
+                  Login
+               </button>
             </div>
          )}
-         {!user && <h1>Unauthorized</h1>}
       </div>
    );
 };

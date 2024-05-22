@@ -2,14 +2,13 @@
 
 import { createServer } from "@/lib/supabase/server";
 import console from "console";
-
 import { redirect } from "next/navigation";
+
+//Don't try to use redirect in try catch block it will not work as expected maybe bug
 
 export async function login(formData: { email: string; password: string }) {
    const supabase = await createServer();
 
-   // type-casting here for convenience
-   // in practice, you should validate your inputs
    const data = {
       email: formData.email,
       password: formData.password,
@@ -45,7 +44,9 @@ export async function signup(formData: {
       return { error: error.message };
    }
 
-   const { error: updateError, data: updateData } = await supabase
+   // storing some extra data in the user table you can store any data you want but don't forget to update the table schema
+
+   const { error: updateError } = await supabase
       .from("users")
       .update({
          display_name: formData.username,

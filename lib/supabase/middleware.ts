@@ -2,6 +2,8 @@ import { DEFAULT_SIGNIN, privatesRoutes, protectedRoutes } from "@/routes";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+//the only goal of this middleware is to update the session cookie but we have also used it for redirection based upon the user's authentication status
+
 export async function updateSession(request: NextRequest) {
    let response = NextResponse.next({
       request: {
