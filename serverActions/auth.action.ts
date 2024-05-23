@@ -44,14 +44,6 @@ export async function signup(formData: {
       return { error: error.message };
    }
 
-   const { error: userError, data: datauser } = await supabase
-      .from("users")
-      .select("email")
-      .eq("email", data?.user?.email);
-
-   console.log(datauser, "datauser");
-   console.log(userError, "userError");
-
    // storing some extra data in the user table you can store any data you want but don't forget to update the table schema
 
    const { error: updateError } = await supabase
