@@ -48,7 +48,7 @@ export function SigninForm() {
 
    return (
       <div className="w-full">
-         <div className="">
+         <div className="space-y-4">
             <Form {...form}>
                <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -98,8 +98,8 @@ export function SigninForm() {
                   </Button>
                </form>
             </Form>
+            <AuthProviders />
          </div>
-         <AuthProviders />
          <Link href="/auth/signup">
             <p className="underline mt-2">Create An account</p>
          </Link>

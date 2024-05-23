@@ -1,4 +1,4 @@
-//default values for the form fields
+//default values for the form fields.
 
 export const defaultValues = {
    email: "",

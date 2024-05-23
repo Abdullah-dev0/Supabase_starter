@@ -2,11 +2,17 @@
 
 import { createServer } from "@/lib/supabase/server";
 
+//getttig user session form Authentication.
+
+//use anyone of the below function to get user session
+
 export async function userSession() {
    const supabase = await createServer();
 
    return supabase.auth.getUser();
 }
+
+//getting user from database
 
 export const getUserFromDatabase = async (id: any) => {
    const supabase = await createServer();

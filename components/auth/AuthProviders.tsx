@@ -6,13 +6,14 @@ import { Button } from "../ui/button";
 
 const AuthProviders = () => {
    const [loading, setLoading] = useState(false);
+   const [providers, setProviders] = useState<"github" | "google" | null>(null);
 
-   const handleLoginWithGithub = () => {
+   const handleLogin = (provider: "github" | "google") => {
       try {
          setLoading(true);
          const supabase = createBroswerClient();
          supabase.auth.signInWithOAuth({
-            provider: "github",
+            provider: provider,
             options: {
                //redirecting to the callback route
 
@@ -26,8 +27,13 @@ const AuthProviders = () => {
       }
    };
    return (
-      <div className="mt-12">
-         <Button onClick={handleLoginWithGithub}>Sign in with Github</Button>
+      <div className="flex gap-3 flex-wrap justify-between">
+         <Button onClick={() => handleLogin("github")}>
+            Sign in with Github
+         </Button>
+         <Button onClick={() => handleLogin("google")}>
+            Sign in with Google
+         </Button>
       </div>
    );
 };

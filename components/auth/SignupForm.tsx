@@ -1,5 +1,15 @@
 "use client";
 
+
+
+//So signup with password and email is not secured and not recommended for production as you can see anyway i integrated this for you all tho google and github are more secure and recommended so they are preferred.
+
+
+// To be able to use email and password you need to add your custom domain in supabase .
+
+
+// for extra imformation of user you can create a profile table and store the user information there and link it with the user table.
+
 //customize this according to your need
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,6 +54,7 @@ export function SignupForm() {
       startTransition(() => {
          signup(values).then((res) => {
             setError(res?.error);
+            setSuccess(res?.success);
          });
       });
    }
@@ -51,7 +62,7 @@ export function SignupForm() {
    return (
       <div className="w-full">
          <h1 className="text-3xl text-center">Sign Up </h1>
-         <div className="">
+         <div className="space-y-4">
             <Form {...form}>
                <form
                   onSubmit={form.handleSubmit(onSubmit)}

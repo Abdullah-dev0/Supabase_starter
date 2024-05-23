@@ -1,3 +1,6 @@
+//used to exchange the code for a session token and store it in a cookie
+
+
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";

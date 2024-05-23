@@ -44,6 +44,14 @@ export async function signup(formData: {
       return { error: error.message };
    }
 
+   const { error: userError, data: datauser } = await supabase
+      .from("users")
+      .select("email")
+      .eq("email", data?.user?.email);
+
+   console.log(datauser, "datauser");
+   console.log(userError, "userError");
+
    // storing some extra data in the user table you can store any data you want but don't forget to update the table schema
 
    const { error: updateError } = await supabase
@@ -52,13 +60,15 @@ export async function signup(formData: {
          display_name: formData.username,
          email_verified: data?.user?.user_metadata.email_verified,
       })
-      .eq("id", data?.user?.id)
+      .eq("email", data?.user?.email)
       .is("display_name", null);
 
    if (updateError) {
-      console.log(updateError);
+      console.log(updateError, "updateError");
    }
 
-   // Redirect to dashboard
-   return redirect("/dashboard");
+   return {
+      success:
+         "We have sent you an email to verify your account. Please verify your account to login.",
+   };
 }

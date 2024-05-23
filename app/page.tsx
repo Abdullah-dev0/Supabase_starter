@@ -1,11 +1,12 @@
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
 
 const HomePage = async () => {
    return (
-      <div>
+      <div className="h-screen grid place-items-center gap-5">
          <h1>Home Page</h1>
          <Link href="/auth/signin">
-            <p>login</p>
+            <Button>Sign in</Button>
          </Link>
       </div>
    );

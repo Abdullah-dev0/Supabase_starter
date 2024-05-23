@@ -1,3 +1,5 @@
+//proteced route
+
 import Header from "@/components/auth/Header";
 import { getUserFromDatabase, userSession } from "@/serverActions/getUser";
 
@@ -5,7 +7,7 @@ const Dashboard = async () => {
    const userdata = await userSession();
    //we get user from the database because we need some extra data of the user
    const user = await getUserFromDatabase(userdata?.data.user?.id);
-   console.log(user);
+
    return (
       <div className="h-screen flex flex-col items-center bg-gray-100 p-4">
          <Header />
