@@ -16,6 +16,16 @@ Welcome to the Supabase Starter Template! This repository provides a robust star
 
 Follow these steps to set up the project locally:
 
+
+## Simpley Pull the image Form docker Hub 
+
+### Copy and paste the command in Command line 
+
+```sh
+ docker run -p 3000:3000 abdullahdev0/supabase_starter
+```
+
+
 ### Prerequisites
 
 - Node.js (>=14.x)
