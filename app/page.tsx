@@ -4,7 +4,6 @@ import Link from "next/link";
 
 const HomePage = async () => {
   const { data } = await userSession();
-  console.log(data);
   return (
     <div className="h-screen grid place-items-center gap-5">
       <h1>Home Page</h1>
