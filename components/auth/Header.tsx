@@ -11,7 +11,10 @@ const Header = () => {
   const logout = async () => {
     startTransition(async () => {
       const { error } = await supabase.auth.signOut();
-      if (!error) Router.push("/");
+      if (!error) {
+        Router.push("/");
+        Router.refresh();
+      }
     });
   };
 
